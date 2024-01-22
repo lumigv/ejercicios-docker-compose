@@ -1,0 +1,9 @@
+version: '3'
+# Ejemplo de un servicio Apache HTTP server
+services:
+ servidorAplicaciones:
+    image: php:8.3.0-apache
+    ports:
+      - 8004:80
+    volumes:
+      - ./src:/var/www/html

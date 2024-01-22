@@ -1,0 +1,30 @@
+version: '3'
+# ejemplo de una aplicación con 2 servicios
+services:
+  mariadb:
+    image: mariadb
+    container_name: servidorMariadb
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      - MARIADB_ROOT_PASSWORD=12345678
+      - MARIADB_DATABASE=database
+      - MARIADB_USER=user
+      - MARIADB_PASSWORD=password
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 8005:80
+    environment:
+# Configuramos variable de entorno PMA_HOST con nombre de servicio mysql. Así phpMyadmin no pregunta por el nombre del host al que queremos conecntarnos
+      - PMA_HOST=mariadb
+# Indicamos que el servicio depende del servicio mysql y que no podrá inciarse hasta que el servicio mysql esté iniciado
+    depends_on: 
+      - mariadb 
+
+volumes:
+  mariadb_data:
